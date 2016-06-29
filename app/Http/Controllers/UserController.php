@@ -2,9 +2,14 @@
 
 namespace Cinema\Http\Controllers;
 
+use Session;
+use Redirect;
 use Illuminate\Http\Request;
-
+use Cinema\User;
 use Cinema\Http\Requests;
+use Cinema\Http\Requests\UserCreateRequest;
+use Cinema\Http\Requests\UserupdateRequest;
+
 
 class UserController extends Controller
 {
@@ -15,7 +20,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::All(); //trae todos los elementos que contenga la tabla usuarios
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -34,9 +40,15 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
-        //
+        User::create([
+            'name' => $request['name'],
+            'email' => $request['email'],
+            //'password' => bcrypt($request['password']), <- ya no es necesario, lo encriptamos desde el modelo.
+        ]);  
+
+        return redirect('/user')->with('message','store'); 
     }
 
     /**
@@ -58,7 +70,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('user.edit', ['user'=>$user]);
     }
 
     /**
@@ -68,9 +81,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->fill($request->all());
+        $user->save();
+
+        Session::flash('message', 'Usuario Editado con exito.');
+        return Redirect::to('/user');
+
     }
 
     /**
@@ -81,6 +100,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::destroy($id);
+        Session::flash('message', 'Usuario Eliminado con exito.');
+        return Redirect::to('/user');
+
     }
 }
