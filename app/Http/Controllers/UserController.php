@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::All(); //trae todos los elementos que contenga la tabla usuarios
+        $users = User::paginate(1); //trae todos los elementos que contenga la tabla usuarios
         return view('user.index', compact('users'));
     }
 

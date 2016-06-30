@@ -24,4 +24,7 @@
 		</tbody>
 		@endforeach
 	</table>
+
+	{!! $users->links() !!}
+
 @stop
