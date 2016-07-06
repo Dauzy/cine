@@ -3,11 +3,14 @@
 namespace Cinema;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Model
 {
+    use SoftDeletes;
+    
     protected $table = "users";
-
+    protected $dates = ['deleted_at'];
 
 
     /**
@@ -15,7 +18,7 @@ class User extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password'];
+    protected $fillable = ['name', 'lastname', 'email', 'password'];
     /**
      * The attributes excluded from the model's JSON form.
      *

@@ -42,13 +42,17 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-        User::create([
+        User::create(/*[
             'name' => $request['name'],
+            'lastname' => $request['lastname'],
             'email' => $request['email'],
             //'password' => bcrypt($request['password']), <- ya no es necesario, lo encriptamos desde el modelo.
-        ]);  
+            'password' => $request['password'],
+        ]*/
+        $request->all()
+        );  
 
-        return redirect('/user')->with('message','store'); 
+        return redirect('/user')->with('message','Usuario Registrado con Exito'); 
     }
 
     /**
@@ -99,8 +103,9 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        User::destroy($id);
+    {   
+        $user = User::find($id);
+        $user->delete();
         Session::flash('message', 'Usuario Eliminado con exito.');
         return Redirect::to('/user');
 

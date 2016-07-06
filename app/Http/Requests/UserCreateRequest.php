@@ -25,6 +25,7 @@ class UserCreateRequest extends Request
     {
         return [
             'name' => 'required',
+            'lastname' => 'required',
             'email' => 'required|unique:users',
             'password' => 'required',
         ];
