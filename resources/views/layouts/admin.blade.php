@@ -44,7 +44,7 @@
 
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                      {!! Auth::user()->name !!} {!! Auth::user()->lastname !!} <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
@@ -52,7 +52,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -75,25 +75,27 @@
                             </div>
                             <!-- /input-group -->
                         </li>
+                        @if(Auth::user()->id == 11 )
+                            <li>
+                                <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Usuario<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li>
+                                        <a href="{!! URL::to('user/create') !!}"><i class="fa fa-plus"></i> Agregar</a>
+                                    </li>
+                                    <li>
+                                        <a href="{!! URL::to('/user') !!}"><i class="fa fa-users"></i> Usuarios</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
                         <li>
-                            <a href="index.html"><i class="fa fa-dashboard fa-fw"></i> Usuario<span class="fa arrow"></span></a>
+                            <a href=""><i class="fa fa-film fa-fw"></i> Peliculas<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="{!! URL::to('user/create') !!}"><i class="fa fa-plus"></i> Agregar</a>
+                                    <a href="{!! URL::to('/movie/create')!!}"><i class="fa fa-plus"></i> Agregar</a>
                                 </li>
                                 <li>
-                                    <a href="{!! URL::to('/user') !!}"><i class="fa fa-users"></i> Usuarios</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-film fa-fw"></i> Peliculas<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#"><i class="fa fa-plus"></i> Agregar</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-film"></i> Peliculas</a>
+                                    <a href="{!! URL::to('/movie')!!}"><i class="fa fa-film"></i> Peliculas</a>
                                 </li> 
                             </ul>
                             <!-- /.nav-second-level -->
@@ -102,10 +104,10 @@
                             <a href="#"><i class="fa fa-suitcase fa-fw"></i> Generos<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="#"><i class="fa fa-plus"></i> Agregar</a>
+                                    <a href="{!! URL::to('/genre/create') !!}"><i class="fa fa-plus"></i> Agregar</a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa fa-suitcase"></i> Generos</a>
+                                    <a href="{!! URL::to('/genre') !!}"><i class="fa fa-suitcase"></i> Generos</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
@@ -130,6 +132,10 @@
     {!!Html::script('js/bootstrap.min.js')!!}
     {!!Html::script('js/metisMenu.min.js')!!}
     {!!Html::script('js/sb-admin-2.js')!!}
+    
+    @section('scripts')
+    @show
+
 </body>
 
 </html>

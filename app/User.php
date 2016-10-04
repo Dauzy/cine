@@ -4,9 +4,12 @@ namespace Cinema;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 
-class User extends Model
+class User extends Model implements AuthenticatableContract
 {
+    use Authenticatable;
     use SoftDeletes;
     
     protected $table = "users";
@@ -26,10 +29,5 @@ class User extends Model
      */
     protected $hidden = ['password', 'remember_token'];
 
-    public function setPasswordAttribute($valor){
-        if (!empty($valor)) {
-            $this->attributes['password'] = \Hash::make($valor); //Para poder encriptar el password
-        }
-    }
     
 }

@@ -13,14 +13,24 @@ use Cinema\Http\Requests\UserupdateRequest;
 
 class UserController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::paginate(1); //trae todos los elementos que contenga la tabla usuarios
+        $users = User::paginate(2); //trae todos los elementos que contenga la tabla usuarios
+        if ($request->ajax()) {
+            return response()->json(view('user.users', compact('users'))->render());
+        }
+            
         return view('user.index', compact('users'));
     }
 
@@ -42,14 +52,12 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request)
     {
-        User::create(/*[
+        User::create([
             'name' => $request['name'],
             'lastname' => $request['lastname'],
             'email' => $request['email'],
-            //'password' => bcrypt($request['password']), <- ya no es necesario, lo encriptamos desde el modelo.
-            'password' => $request['password'],
-        ]*/
-        $request->all()
+            'password' => bcrypt($request['password']), //<- ya no es necesario, lo encriptamos desde el modelo.
+        ]
         );  
 
         return redirect('/user')->with('message','Usuario Registrado con Exito'); 
@@ -88,7 +96,7 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, $id)
     {
         $user = User::find($id);
-        $user->fill($request->all());
+        $user->fill($request->only('name', 'lastname', 'email'));
         $user->save();
 
         Session::flash('message', 'Usuario Editado con exito.');

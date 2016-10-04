@@ -4,11 +4,10 @@ namespace Cinema\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Cinema\Http\Requests;
-use Cinema\Http\Controllers\Controller;
+use Cinema\Http\Requests\GenreRequest;
 use Cinema\Genre;
-use Cinema\Movies;
 
-class MovieController extends Controller
+class GenreController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,8 +16,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $movies = Movies::Movie();
-        return view('movie.index', compact('movies'));
+        return view('genre.index');
     }
 
     /**
@@ -28,8 +26,7 @@ class MovieController extends Controller
      */
     public function create()
     {
-        $genres = Genre::lists('genre','id');
-        return view('movie.create', compact('genres'));
+        return view('genre.create');
     }
 
     /**
@@ -38,21 +35,25 @@ class MovieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GenreRequest $request)
     {
-        Movies::create($request->all());
-        return "Estoy Listo";
+        if($request->ajax()) {
+            Genre::create($request->all());
+            return response()->json([
+                "mensaje" => "creado"
+            ]);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id||1  Q|1
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return "Estoy en show.";
+        //
     }
 
     /**
@@ -63,7 +64,10 @@ class MovieController extends Controller
      */
     public function edit($id)
     {
-        return "Estoy en edit.";
+        $genre = Genre::find($id);
+        return response()->json(
+                $genre->toArray()
+            );
     }
 
     /**
@@ -75,7 +79,13 @@ class MovieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return "Estoy en update.";
+        $genre = Genre::find($id);
+        $genre->fill($request->all());
+        $genre->save();
+
+        return response()->json([
+                "mensaje" => "listo"
+            ]);
     }
 
     /**
@@ -86,6 +96,20 @@ class MovieController extends Controller
      */
     public function destroy($id)
     {
-        return "Estoy en destroy.";
+       $genre = Genre::find($id);
+       $genre->delete();
+
+       return response()->json([
+            "mensaje" => "listo"
+       ]);
     }
+
+    public function listing(){
+        $genres = Genre::all();
+
+        return response()->json(
+                $genres->toArray()
+            );
+    }
+
 }

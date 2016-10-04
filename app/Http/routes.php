@@ -66,4 +66,18 @@ Route::get('reviews', 'FrontController@reviews');
 Route::get('admin', 'FrontController@admin');
 
 Route::resource('user', 'UserController');
+Route::resource('genre', 'GenreController');
+Route::get('genres','GenreController@listing');
+Route::resource('movie', 'MovieController');
+
 Route::resource('log', 'LogController');
+Route::get('logout', 'LogController@logout');
+
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

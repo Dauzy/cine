@@ -1,8 +1,4 @@
-@extends('layouts.admin')	
-@include('alerts.success');
-@section('content')
-<div class="users">
-	<table class="table">
+<table class="table">
 		<thead>
 			<th>Nombre</th>
 			<th>Apellido</th>
@@ -22,9 +18,3 @@
 	</table>
 
 	{!! $users->links() !!}
-</div>
-@endsection
-
-@section('scripts')
-	{!! Html::script('js/ajaxPagination.js') !!}
-@endsection
