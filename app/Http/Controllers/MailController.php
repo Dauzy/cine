@@ -3,30 +3,13 @@
 namespace Cinema\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cinema\Http\Requests;
-use Cinema\Http\Controllers\Controller;
-use Cinema\Genre;
-use Cinema\Movies;
+use Mail;
 use Session;
 use Redirect;
-use Illuminate\Routing\Route;
+use Cinema\Http\Requests;
 
-class MovieController extends Controller
+class MailController extends Controller
 {
-    /*
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('admin');
-        $this->middleware('admin', ['only' => ['edit','update','destroy']]);
-
-    }
-
-    public function find(Route $route){
-        $this->movie = Movie::find($route->getParameter('pelicula'));
-    }
-    */
-
     /**
      * Display a listing of the resource.
      *
@@ -34,8 +17,7 @@ class MovieController extends Controller
      */
     public function index()
     {
-        $movies = Movies::Movie();
-        return view('movie.index', compact('movies'));
+        //
     }
 
     /**
@@ -45,8 +27,7 @@ class MovieController extends Controller
      */
     public function create()
     {
-        $genres = Genre::lists('genre','id');
-        return view('movie.create', compact('genres'));
+        //
     }
 
     /**
@@ -57,18 +38,25 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        Movies::create($request->all());
-        return "Estoy Listo";
+        Mail::send('emails.contact', $request->all(), function($msj){
+            $msj->subject('Correo de Contacto');
+            $msj->to('dauzzyy@gmail.com');
+        });
+
+        Session::flash('message', 'Mensaje Enviado Correctamente');
+        return Redirect::to('/contacto');
+    
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id||1  Q|1
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
+        //
     }
 
     /**
@@ -78,12 +66,8 @@ class MovieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
-      /*
-        $genres = Genre::lists('genre', 'id');
-        return view('movie.edit', ['genres'=>$genres]);
-        */
-        return view('movie.edit');
+    {
+        //
     }
 
     /**
@@ -95,10 +79,7 @@ class MovieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        /*
-        $this->movies->fill($request->all());
-        $this->movies->save();
-        */
+        //
     }
 
     /**
@@ -109,6 +90,6 @@ class MovieController extends Controller
      */
     public function destroy($id)
     {
-        return "Estoy en destroy.";
+        //
     }
 }

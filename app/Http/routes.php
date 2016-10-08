@@ -65,6 +65,10 @@ Route::get('contacto', 'FrontController@contacto');
 Route::get('reviews', 'FrontController@reviews');
 Route::get('admin', 'FrontController@admin');
 
+Route::get('password/email','Auth\PasswordController@getEmail');
+Route::post('password/email','Auth\PasswordController@postEmail');
+
+Route::resource('mail', 'MailController');
 Route::resource('user', 'UserController');
 Route::resource('genre', 'GenreController');
 Route::get('genres','GenreController@listing');

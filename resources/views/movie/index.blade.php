@@ -10,6 +10,7 @@
 				<th>duracion</th>
 				<th>valoracion</th>
 				<th>sipnopsis</th>
+				<th>Operaciones</th>
 			</thead>
 			@foreach($movies as $movie)
 				<tbody>
@@ -22,6 +23,7 @@
 					<td>{{$movie->duracion}}</td>
 					<td>{{$movie->valoracion}}</td>
 					<td>{{$movie->sipnopsis}}</td>
+					<td>{!!link_to_route('movie.edit', $title = 'Editar', $parameters  = $movie->id, $attributes = ['class' =>'btn btn-primary' ])!!}</td>
 				</tbody>
 			@endforeach
 		</table>

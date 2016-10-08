@@ -5,6 +5,7 @@ namespace Cinema\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Cinema\Http\Requests;
+use Cinema\Movies;
 
 class FrontController extends Controller
 {   
@@ -22,7 +23,8 @@ class FrontController extends Controller
     }
 
     public function reviews(){
-    	return view('reviews');
+        $movies = Movies::Movie();
+    	return view('reviews', compact('movies'));
     }
 
     public function admin(){

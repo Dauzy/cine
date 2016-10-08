@@ -14,9 +14,11 @@ class Movies extends Model
  	// M U T A D O R
  	//sirve oara modificar algunos elementos antes de ser guardados
  	public function SetPathAttribute($path){
- 		$this->attributes['path'] = Carbon::now()->second.$path->getClientOriginalName();
- 		$name = Carbon::now()->second.$path->getClientOriginalName();
- 		\Storage::disk('local')->put($name, \File::get($path));
+		if (!empty($path)) {
+			$this->attributes['path'] = Carbon::now()->second.$path->getClientOriginalName();
+			$name = Carbon::now()->second.$path->getClientOriginalName();
+			\Storage::disk('local')->put($name, \File::get($path));
+		}
  	}
 
  	public static function Movie(){
