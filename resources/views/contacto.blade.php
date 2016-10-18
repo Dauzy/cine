@@ -6,24 +6,19 @@
 		 <h3 class="head">CONTACT</h3>
 		 <p>WE'RE ALWAYS HERE TO HELP YOU</p>
 		 <div class="contact-form">
-			 <form>
+		 	{!!Form::open(['route'=>'mail.store', 'method'=>'POST'])!!}
 				 <div class="col-md-6 contact-left">
-					  <input type="text" placeholder="Name" required/>
-					  <input type="text" placeholder="E-mail" required/>
-					  <input type="text" placeholder="Phone" required/>
+					  {!!Form::text('name', null, ['placeholder'=>'Nombre'])!!}
+					  {!!Form::text('email', null, ['placeholder'=>'Email'])!!}
 				  </div>
 				  <div class="col-md-6 contact-right">
-					 <textarea placeholder="Message"></textarea>
-					 <input type="submit" value="SEND"/>
+				  	{!!Form::textarea('mensaje', null, ['placeholder'=>'Escribe tu mensaje aqui.'])!!}
+					{!!Form::submit('Enviar')!!}
 				 </div>
+			{!!Form::close()!!}
 				 <div class="clearfix"></div>
-			 </form>
 	     </div>
-		 <div class="contact_info">
-			 <h3>Find Us Here</h3>
-			 <div class="map">
-				<iframe width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.co.in/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Lighthouse+Point,+FL,+United+States&amp;aq=4&amp;oq=light&amp;sll=26.275636,-80.087265&amp;sspn=0.04941,0.104628&amp;ie=UTF8&amp;hq=&amp;hnear=Lighthouse+Point,+Broward,+Florida,+United+States&amp;t=m&amp;z=14&amp;ll=26.275636,-80.087265&amp;output=embed"></iframe><br><small><a href="https://maps.google.co.in/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Lighthouse+Point,+FL,+United+States&amp;aq=4&amp;oq=light&amp;sll=26.275636,-80.087265&amp;sspn=0.04941,0.104628&amp;ie=UTF8&amp;hq=&amp;hnear=Lighthouse+Point,+Broward,+Florida,+United+States&amp;t=m&amp;z=14&amp;ll=26.275636,-80.087265" style="color:#000;text-align:left;font-size:12px">View Larger Map</a></small>
-			</div>
+		 
 	 </div>
 </div>
 @endsection

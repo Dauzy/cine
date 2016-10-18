@@ -65,4 +65,23 @@ Route::get('contacto', 'FrontController@contacto');
 Route::get('reviews', 'FrontController@reviews');
 Route::get('admin', 'FrontController@admin');
 
-Route::resource('user', '@UserController');
+Route::get('password/email','Auth\PasswordController@getEmail');
+Route::post('password/email','Auth\PasswordController@postEmail');
+
+Route::resource('mail', 'MailController');
+Route::resource('user', 'UserController');
+Route::resource('genre', 'GenreController');
+Route::get('genres','GenreController@listing');
+Route::resource('movie', 'MovieController');
+
+Route::resource('log', 'LogController');
+Route::get('logout', 'LogController@logout');
+
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');
+
+Route::auth();
+
+Route::get('/home', 'HomeController@index');

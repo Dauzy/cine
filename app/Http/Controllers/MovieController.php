@@ -3,11 +3,30 @@
 namespace Cinema\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Cinema\Http\Requests;
+use Cinema\Http\Controllers\Controller;
+use Cinema\Genre;
+use Cinema\Movies;
+use Session;
+use Redirect;
+use Illuminate\Routing\Route;
 
 class MovieController extends Controller
 {
+    /*
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('admin');
+        $this->middleware('admin', ['only' => ['edit','update','destroy']]);
+
+    }
+
+    public function find(Route $route){
+        $this->movie = Movie::find($route->getParameter('pelicula'));
+    }
+    */
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +34,8 @@ class MovieController extends Controller
      */
     public function index()
     {
-        return "Index.";
+        $movies = Movies::Movie();
+        return view('movie.index', compact('movies'));
     }
 
     /**
@@ -25,7 +45,8 @@ class MovieController extends Controller
      */
     public function create()
     {
-        return "Estoy en create.";
+        $genres = Genre::lists('genre','id');
+        return view('movie.create', compact('genres'));
     }
 
     /**
@@ -36,7 +57,8 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-        return "Estoy en store.";
+        Movies::create($request->all());
+        return "Estoy Listo";
     }
 
     /**
@@ -46,8 +68,7 @@ class MovieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
-        return "Estoy en show.";
+    {   
     }
 
     /**
@@ -57,8 +78,12 @@ class MovieController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
-        return "Estoy en edit.";
+    {   
+      /*
+        $genres = Genre::lists('genre', 'id');
+        return view('movie.edit', ['genres'=>$genres]);
+        */
+        return view('movie.edit');
     }
 
     /**
@@ -70,7 +95,10 @@ class MovieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return "Estoy en update.";
+        /*
+        $this->movies->fill($request->all());
+        $this->movies->save();
+        */
     }
 
     /**

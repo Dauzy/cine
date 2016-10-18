@@ -2,20 +2,23 @@
 
 @section('content')
 <div class="header">
-
+	@include('alerts.errors')
 			<div class="header-info">
 				<h1>BIG HERO 6</h1>
-				<form >
+				{!!Form::open(['route'=>'log.store', 'method'=>'POST'])!!}
 					<div class="form-group">
-						<label>User</label>
-						<input type="email" class="form-control" placeholder="Email" >
+						{!! Form::label('correo','Correo:') !!}
+						{!! Form::email('email', null, ['class'=>'form-control', '
+						placeholder'=>'Ingresa tu correo']) !!}
 					</div>
 					<div class="form-group">
-						<label>Password</label>
-						<input type="password" class="form-control" placeholder="Password">
+						{!! Form::label('contraseña','Contraseña:') !!}
+						{!! Form::password('password', ['class'=>'form-control', '
+						placeholder'=>'Ingresa tu contraseña']) !!}
 					</div>
-					<button type="submit" class="btn btn-primary">Login</button>
-				</form>
+					{!! Form::submit('Iniciar',['class'=>'btn btn-primary']) !!}					
+				{!!Form::close()!!}
+				{!!link_to('password/email', $title='Forgot your password?', $attributes= null, $secure= null)!!}
 				<!--
 				<p class="age"><a href="#">All Age</a> Don Hall, Chris Williams</p>
 				<p class="review">Rating	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;  8,5/10</p>

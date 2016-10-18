@@ -2,20 +2,36 @@
 
 namespace Cinema\Http\Controllers;
 
+use Session;
+use Redirect;
 use Illuminate\Http\Request;
-
+use Cinema\User;
 use Cinema\Http\Requests;
+use Cinema\Http\Requests\UserCreateRequest;
+use Cinema\Http\Requests\UserupdateRequest;
+
 
 class UserController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $users = User::paginate(2); //trae todos los elementos que contenga la tabla usuarios
+        if ($request->ajax()) {
+            return response()->json(view('user.users', compact('users'))->render());
+        }
+            
+        return view('user.index', compact('users'));
     }
 
     /**
@@ -34,9 +50,17 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
-        //
+        User::create([
+            'name' => $request['name'],
+            'lastname' => $request['lastname'],
+            'email' => $request['email'],
+            'password' => bcrypt($request['password']), //<- ya no es necesario, lo encriptamos desde el modelo.
+        ]
+        );  
+
+        return redirect('/user')->with('message','Usuario Registrado con Exito'); 
     }
 
     /**
@@ -58,7 +82,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('user.edit', ['user'=>$user]);
     }
 
     /**
@@ -68,9 +93,15 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->fill($request->only('name', 'lastname', 'email'));
+        $user->save();
+
+        Session::flash('message', 'Usuario Editado con exito.');
+        return Redirect::to('/user');
+
     }
 
     /**
@@ -80,7 +111,11 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        //
+    {   
+        $user = User::find($id);
+        $user->delete();
+        Session::flash('message', 'Usuario Eliminado con exito.');
+        return Redirect::to('/user');
+
     }
 }
